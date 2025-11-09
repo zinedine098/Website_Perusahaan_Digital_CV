@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ course.title }} - Pembelajaran - KursusKu{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <!-- Sidebar Navigasi Modul -->
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <h5>{{ course.title }}</h5>
+                    <div class="progress" style="height: 10px;">
+                        <div class="progress-bar" role="progressbar" 
+                             style="width: {{ course_progress.progress_percentage }}%;" 
+                             aria-valuenow="{{ course_progress.progress_percentage }}" 
+                             aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                    </div>
+                    <p class="text-center mt-1">{{ course_progress.progress_percentage }}% Selesai</p>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        {% for module in modules %}
+                            <div class="mb-2">
+                                <a class="list-group-item list-group-item-action fw-bold">
+                                    <i class="fas fa-folder me-2"></i> {{ module.title }}
+                                </a>
+                                {% for lesson in module.lessons.all %}
+                                    <a href="{% url 'lesson_view' course.slug lesson.id %}" 
+                                       class="list-group-item list-group-item-action ps-4">
+                                        <i class="fas fa-play-circle me-2"></i> 
+                                        {{ lesson.title }}
+                                        {% if lesson.lesson_type == 'video' %}
+                                            <i class="fas fa-video text-primary float-end"></i>
+                                        {% elif lesson.lesson_type == 'text' %}
+                                            <i class="fas fa-file-alt text-info float-end"></i>
+                                        {% elif lesson.lesson_type == 'quiz' %}
+                                            <i class="fas fa-question-circle text-success float-end"></i>
+                                        {% elif lesson.lesson_type == 'assignment' %}
+                                            <i class="fas fa-tasks text-warning float-end"></i>
+                                        {% endif %}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Konten Utama -->
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Selamat Datang di {{ course.title }}</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5>Ikhtisar Kursus</h5>
+                            <p>{{ course.description|safe }}</p>
+                            
+                            <h5>Yang Akan Anda Pelajari</h5>
+                            <ul>
+                                <li>Memahami konsep dasar dari {{ course.title }}</li>
+                                <li>Mengaplikasikan pengetahuan dalam proyek nyata</li>
+                                <li>Mendapatkan sertifikat penyelesaian</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h6>Statistik Kursus</h6>
+                                    <p><i class="fas fa-users"></i> {{ course.get_enrollment_count }} siswa terdaftar</p>
+                                    <p><i class="fas fa-folder"></i> {{ course.modules.count }} modul</p>
+                                    <p><i class="fas fa-film"></i> {{ course.modules.count|mul:5 }} pelajaran</p>
+                                    <p><i class="fas fa-clock"></i> {{ course.duration }} jam konten</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <a href="{% url 'lesson_view' course.slug course.modules.first.lessons.first.id %}" class="btn btn-primary">
+                            Mulai Belajar <i class="fas fa-play ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

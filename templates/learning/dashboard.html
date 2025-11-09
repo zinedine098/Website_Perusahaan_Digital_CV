@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard Siswa - KursusKu{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Dashboard Siswa</h2>
+    <p>Selamat datang, {{ user.get_full_name|default:user.username }}!</p>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Kursus Saya</h3>
+            {% if course_progresses %}
+                <div class="row">
+                    {% for item in course_progresses %}
+                        <div class="col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ item.enrollment.course.title }}</h5>
+                                    <p class="card-text">{{ item.enrollment.course.description|truncatewords:20|safe }}</p>
+                                    <div class="progress mb-2" style="height: 20px;">
+                                        <div class="progress-bar" role="progressbar" 
+                                             style="width: {{ item.progress.progress_percentage }}%;" 
+                                             aria-valuenow="{{ item.progress.progress_percentage }}" 
+                                             aria-valuemin="0" aria-valuemax="100">
+                                            {{ item.progress.progress_percentage }}%
+                                        </div>
+                                    </div>
+                                    <p class="text-muted">
+                                        {{ item.progress.completed_lessons }} dari {{ item.progress.total_lessons }} pelajaran
+                                    </p>
+                                    <a href="{% url 'learning:course_learning_view' item.enrollment.course.slug %}" class="btn btn-primary">Lanjutkan Belajar</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>Anda belum mendaftar di kursus manapun. <a href="{% url 'courses:course_list' %}">Jelajahi kursus</a> sekarang!</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

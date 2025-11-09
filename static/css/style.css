@@ -1,0 +1,87 @@
+/* Custom CSS for KursusKu */
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Course Card */
+.card {
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+/* Lesson Content */
+.lesson-content {
+    line-height: 1.8;
+}
+
+.lesson-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Progress Bar */
+.progress {
+    height: 20px;
+}
+
+.progress-bar {
+    font-weight: bold;
+}
+
+/* Module and Lesson List */
+.module-title {
+    border-bottom: 2px solid #dee2e6;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.lesson-item {
+    background-color: #f8f9fa;
+    border-left: 3px solid #0d6efd;
+}
+
+.lesson-item a {
+    text-decoration: none;
+    color: #212529;
+}
+
+.lesson-item a:hover {
+    color: #0d6efd;
+}
+
+/* Rating Stars */
+.rating-input .btn {
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Footer */
+.footer {
+    margin-top: auto;
+}
+
+/* Main Content */
+.main-content {
+    min-height: calc(100vh - 200px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .main-content {
+        min-height: calc(100vh - 300px);
+    }
+    
+    .hero-section {
+        padding: 2rem 0;
+    }
+}

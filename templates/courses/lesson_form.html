@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}Tambah Pelajaran - KursusKu{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Tambah Pelajaran untuk "{{ module.title }}"</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.title.id_for_label }}" class="form-label">{{ form.title.label }}</label>
+                            {{ form.title }}
+                            {% if form.title.errors %}
+                                <div class="text-danger">{{ form.title.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.content.id_for_label }}" class="form-label">{{ form.content.label }}</label>
+                            {{ form.content }}
+                            {% if form.content.errors %}
+                                <div class="text-danger">{{ form.content.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="{{ form.lesson_type.id_for_label }}" class="form-label">{{ form.lesson_type.label }}</label>
+                                    {{ form.lesson_type }}
+                                    {% if form.lesson_type.errors %}
+                                        <div class="text-danger">{{ form.lesson_type.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="{{ form.duration.id_for_label }}" class="form-label">{{ form.duration.label }}</label>
+                                    {{ form.duration }}
+                                    {% if form.duration.errors %}
+                                        <div class="text-danger">{{ form.duration.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.video_url.id_for_label }}" class="form-label">{{ form.video_url.label }}</label>
+                            {{ form.video_url }}
+                            {% if form.video_url.errors %}
+                                <div class="text-danger">{{ form.video_url.errors }}</div>
+                            {% endif %}
+                            <div class="form-text">Untuk video YouTube, gunakan URL embed (misalnya: https://www.youtube.com/embed/video_id)</div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="{{ form.order.id_for_label }}" class="form-label">{{ form.order.label }}</label>
+                                    {{ form.order }}
+                                    {% if form.order.errors %}
+                                        <div class="text-danger">{{ form.order.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3 form-check">
+                                    {{ form.is_published }}
+                                    <label class="form-check-label" for="{{ form.is_published.id_for_label }}">{{ form.is_published.label }}</label>
+                                    {% if form.is_published.errors %}
+                                        <div class="text-danger">{{ form.is_published.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'courses:course_detail' course.slug %}" class="btn btn-secondary me-md-2">Batal</a>
+                            <button type="submit" class="btn btn-primary">Tambah Pelajaran</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

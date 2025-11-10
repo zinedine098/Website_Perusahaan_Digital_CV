@@ -4,23 +4,165 @@
 {% block title %}Beranda - KursusKu{% endblock %}
 
 {% block content %}
-<div class="hero-section bg-primary text-white py-5">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <h1 class="display-4 fw-bold">Belajar Lebih Mudah dan Menyenangkan</h1>
-                <p class="lead">Temukan ribuan kursus berkualitas dari instruktur terbaik di berbagai bidang.</p>
-                <a href="{% url 'courses:course_list' %}" class="btn btn-light btn-lg me-2">Jelajahi Kursus</a>
-                {% if not user.is_authenticated %}
-                    <a href="{% url 'users:register' %}" class="btn btn-outline-light btn-lg">Daftar Sekarang</a>
-                {% endif %}
+<!-- Courses Hero Section -->
+    <section id="courses-hero" class="courses-hero section light-background">
+
+      <div class="hero-content">
+        <div class="container">
+          <div class="row align-items-center">
+
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+              <div class="hero-text">
+                <h1>Transform Your Future with Expert-Led Online Courses</h1>
+                <p>Discover thousands of high-quality courses designed by industry professionals. Learn at your own pace, gain in-demand skills, and advance your career from anywhere in the world.</p>
+
+                <div class="hero-stats">
+                  <div class="stat-item">
+                    <span class="number purecounter" data-purecounter-start="0" data-purecounter-end="50000" data-purecounter-duration="2"></span>
+                    <span class="label">Students Enrolled</span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="number purecounter" data-purecounter-start="0" data-purecounter-end="1200" data-purecounter-duration="2"></span>
+                    <span class="label">Expert Courses</span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="number purecounter" data-purecounter-start="0" data-purecounter-end="98" data-purecounter-duration="2"></span>
+                    <span class="label">Success Rate %</span>
+                  </div>
+                </div>
+
+                <div class="hero-buttons">
+                  <a href="#courses" class="btn btn-primary">Browse Courses</a>
+                  <a href="#about" class="btn btn-outline">Learn More</a>
+                </div>
+
+                <div class="hero-features">
+                  <div class="feature">
+                    <i class="bi bi-shield-check"></i>
+                    <span>Certified Programs</span>
+                  </div>
+                  <div class="feature">
+                    <i class="bi bi-clock"></i>
+                    <span>Lifetime Access</span>
+                  </div>
+                  <div class="feature">
+                    <i class="bi bi-people"></i>
+                    <span>Expert Instructors</span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="col-lg-6 text-center">
-                <img src="{% static 'images/hero-image.png' %}" alt="Learning" class="img-fluid" style="max-height: 300px;">
+
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+              <div class="hero-image">
+                <div class="main-image">
+                  <img src="assets/img/education/courses-13.webp" alt="Online Learning" class="img-fluid">
+                </div>
+
+                <div class="floating-cards">
+                  <div class="course-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card-icon">
+                      <i class="bi bi-code-slash"></i>
+                    </div>
+                    <div class="card-content">
+                      <h6>Web Development</h6>
+                      <span>2,450 Students</span>
+                    </div>
+                  </div>
+
+                  <div class="course-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="card-icon">
+                      <i class="bi bi-palette"></i>
+                    </div>
+                    <div class="card-content">
+                      <h6>UI/UX Design</h6>
+                      <span>1,890 Students</span>
+                    </div>
+                  </div>
+
+                  <div class="course-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="card-icon">
+                      <i class="bi bi-graph-up"></i>
+                    </div>
+                    <div class="card-content">
+                      <h6>Digital Marketing</h6>
+                      <span>3,200 Students</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+
+          </div>
         </div>
-    </div>
-</div>
+      </div>
+
+      <div class="hero-background">
+        <div class="bg-shapes">
+          <div class="shape shape-1"></div>
+          <div class="shape shape-2"></div>
+          <div class="shape shape-3"></div>
+        </div>
+      </div>
+
+</section>
+<!-- /Courses Hero Section -->
+
+<!-- Featured Courses Section -->
+    <section id="featured-courses" class="featured-courses section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Featured Courses</h2>
+        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="course-card">
+              <div class="course-image">
+                <img src="assets/img/education/students-9.webp" alt="Course" class="img-fluid">
+                <div class="price-badge">Rp. 50.000</div>
+              </div>
+              <div class="course-content">
+                <div class="course-meta">
+                  <span class="level">Pemula</span>
+                  <span class="duration">8 jam</span>
+                </div>
+                <h3><a href="#">Digital Marketing Fundamentals</a></h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam.</p>
+                <div class="instructor">
+                  <img src="assets/img/person/person-f-3.webp" alt="Instructor" class="instructor-img">
+                  <div class="instructor-info">
+                    <h6>Sarah Johnson</h6>
+                    <span>Marketing Expert</span>
+                  </div>
+                </div>
+                <div class="course-stats">
+                  <div class="students">
+                    <i class="bi bi-people-fill"></i>
+                    <span>342 students</span>
+                  </div>
+                </div>
+                <a href="enroll.html" class="btn-course">Enroll Now</a>
+              </div>
+            </div>
+          </div><!-- End Course Item -->
+
+
+
+        </div>
+
+        <div class="more-courses text-center" data-aos="fade-up" data-aos-delay="500">
+          <a href="{% url 'courses:course_list' %}" class="btn-more">View All Courses</a>
+        </div>
+
+      </div>
+
+    </section><!-- /Featured Courses Section -->
 
 <div class="py-5">
     <div class="container">

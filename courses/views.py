@@ -14,6 +14,9 @@ def home(request):
         'featured_courses': featured_courses
     }
     return render(request, 'home.html', context)
+def about(request):
+    """Halaman about"""
+    return render(request, 'about.html')
 
 
 def course_list(request):

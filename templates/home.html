@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load course_extras %}
 
 {% block title %}Beranda - KursusKu{% endblock %}
 
@@ -13,20 +14,20 @@
 
             <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
               <div class="hero-text">
-                <h1>Transform Your Future with Expert-Led Online Courses</h1>
-                <p>Discover thousands of high-quality courses designed by industry professionals. Learn at your own pace, gain in-demand skills, and advance your career from anywhere in the world.</p>
+                <h1>{{ hero_data.title }}</h1>
+                <p>{{ hero_data.subtitle }}</p>
 
                 <div class="hero-stats">
                   <div class="stat-item">
-                    <span class="number purecounter" data-purecounter-start="0" data-purecounter-end="50000" data-purecounter-duration="2"></span>
+                    <span class="number purecounter" data-purecounter-start="0" data-purecounter-end="{{ hero_data.students_count }}" data-purecounter-duration="2"></span>
                     <span class="label">Students Enrolled</span>
                   </div>
                   <div class="stat-item">
-                    <span class="number purecounter" data-purecounter-start="0" data-purecounter-end="1200" data-purecounter-duration="2"></span>
+                    <span class="number purecounter" data-purecounter-start="0" data-purecounter-end="{{ hero_data.courses_count }}" data-purecounter-duration="2"></span>
                     <span class="label">Expert Courses</span>
                   </div>
                   <div class="stat-item">
-                    <span class="number purecounter" data-purecounter-start="0" data-purecounter-end="98" data-purecounter-duration="2"></span>
+                    <span class="number purecounter" data-purecounter-start="0" data-purecounter-end="{{ hero_data.success_rate }}" data-purecounter-duration="2"></span>
                     <span class="label">Success Rate %</span>
                   </div>
                 </div>
@@ -39,15 +40,15 @@
                 <div class="hero-features">
                   <div class="feature">
                     <i class="bi bi-shield-check"></i>
-                    <span>Certified Programs</span>
+                    <span>{{ hero_data.feature_1_title }}</span>
                   </div>
                   <div class="feature">
                     <i class="bi bi-clock"></i>
-                    <span>Lifetime Access</span>
+                    <span>{{ hero_data.feature_2_title }}</span>
                   </div>
                   <div class="feature">
                     <i class="bi bi-people"></i>
-                    <span>Expert Instructors</span>
+                    <span>{{ hero_data.feature_3_title }}</span>
                   </div>
                 </div>
               </div>
@@ -56,39 +57,25 @@
             <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
               <div class="hero-image">
                 <div class="main-image">
+                  {% if hero_data.hero_image %}
+                  <img src="{{ hero_data.hero_image.url }}" alt="Online Learning" class="img-fluid">
+                  {% else %}
                   <img src="{% static 'assets/img/education/courses-13.webp' %}" alt="Online Learning" class="img-fluid">
+                  {% endif %}
                 </div>
 
                 <div class="floating-cards">
-                  <div class="course-card" data-aos="fade-up" data-aos-delay="300">
+                  {% for card in floating_cards %}
+                  <div class="course-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1|multiply:100|add:200 }}">
                     <div class="card-icon">
-                      <i class="bi bi-code-slash"></i>
+                      <i class="{{ card.icon_class }}"></i>
                     </div>
                     <div class="card-content">
-                      <h6>Web Development</h6>
-                      <span>2,450 Students</span>
+                      <h6>{{ card.title }}</h6>
+                      <span>{{ card.student_count }} Students</span>
                     </div>
                   </div>
-
-                  <div class="course-card" data-aos="fade-up" data-aos-delay="400">
-                    <div class="card-icon">
-                      <i class="bi bi-palette"></i>
-                    </div>
-                    <div class="card-content">
-                      <h6>UI/UX Design</h6>
-                      <span>1,890 Students</span>
-                    </div>
-                  </div>
-
-                  <div class="course-card" data-aos="fade-up" data-aos-delay="500">
-                    <div class="card-icon">
-                      <i class="bi bi-graph-up"></i>
-                    </div>
-                    <div class="card-content">
-                      <h6>Digital Marketing</h6>
-                      <span>3,200 Students</span>
-                    </div>
-                  </div>
+                  {% endfor %}
                 </div>
               </div>
             </div>
@@ -176,27 +163,15 @@
 <div class="py-5 bg-light">
     <div class="container">
         <div class="row">
+            {% for feature in home_features %}
             <div class="col-md-4 text-center mb-4">
                 <div class="feature-icon">
-                    <i class="fas fa-laptop-code fa-3x text-primary mb-3"></i>
-                    <h4>Belajar Online</h4>
-                    <p>Akses kursus kapanpun dan dimanapun sesuai dengan jadwal Anda.</p>
+                    <i class="{{ feature.icon_class }} fa-3x text-primary mb-3"></i>
+                    <h4>{{ feature.title }}</h4>
+                    <p>{{ feature.description }}</p>
                 </div>
             </div>
-            <div class="col-md-4 text-center mb-4">
-                <div class="feature-icon">
-                    <i class="fas fa-certificate fa-3x text-primary mb-3"></i>
-                    <h4>Sertifikat</h4>
-                    <p>Dapatkan sertifikat setelah menyelesaikan kursus untuk meningkatkan CV Anda.</p>
-                </div>
-            </div>
-            <div class="col-md-4 text-center mb-4">
-                <div class="feature-icon">
-                    <i class="fas fa-user-tie fa-3x text-primary mb-3"></i>
-                    <h4>Instruktur Profesional</h4>
-                    <p>Berlatih dengan instruktur berpengalaman di bidangnya.</p>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </div>
@@ -213,182 +188,78 @@
       <div class="container" data-aos="fade-up" data-aos-delay="100">
 
         <div class="row gy-4">
-
-          <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+          {% for instructor in featured_instructors %}
+          <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|multiply:50|add:200 }}">
             <div class="instructor-card">
               <div class="instructor-image">
-                <img src="assets/img/education/teacher-2.webp" class="img-fluid" alt="">
+                {% if instructor.profile_image %}
+                <img src="{{ instructor.profile_image.url }}" class="img-fluid" alt="{{ instructor.name }}">
+                {% else %}
+                <img src="{% static 'assets/img/education/teacher-2.webp' %}" class="img-fluid" alt="{{ instructor.name }}">
+                {% endif %}
                 <div class="overlay-content">
                   <div class="rating-stars">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-half"></i>
-                    <span>4.8</span>
+                    {% for star in instructor.rating|star_rating %}
+                      {% if star.type == 'fill' %}
+                        <i class="bi bi-star-fill"></i>
+                      {% elif star.type == 'half' %}
+                        <i class="bi bi-star-half"></i>
+                      {% else %}
+                        <i class="bi bi-star"></i>
+                      {% endif %}
+                    {% endfor %}
+                    <span>{{ instructor.rating }}</span>
                   </div>
                   <div class="course-count">
                     <i class="bi bi-play-circle"></i>
-                    <span>18 Courses</span>
+                    <span>{{ instructor.course_count }} Courses</span>
                   </div>
                 </div>
               </div>
               <div class="instructor-info">
-                <h5>Sarah Johnson</h5>
-                <p class="specialty">Web Development</p>
-                <p class="description">Nulla facilisi morbi tempus iaculis urna id volutpat lacus laoreet non curabitur gravida.</p>
+                <h5>{{ instructor.name }}</h5>
+                <p class="specialty">{{ instructor.specialty }}</p>
+                <p class="description">{{ instructor.description }}</p>
                 <div class="stats-grid">
                   <div class="stat">
-                    <span class="number">2.1k</span>
+                    <span class="number">{{ instructor.student_count|to_k_format }}</span>
                     <span class="label">Students</span>
                   </div>
                   <div class="stat">
-                    <span class="number">4.8</span>
+                    <span class="number">{{ instructor.rating }}</span>
                     <span class="label">Rating</span>
                   </div>
                 </div>
                 <div class="action-buttons">
                   <a href="#" class="btn-view">View Profile</a>
                   <div class="social-links">
-                    <a href="#"><i class="bi bi-linkedin"></i></a>
-                    <a href="#"><i class="bi bi-twitter"></i></a>
+                    {% if instructor.linkedin_url %}
+                    <a href="{{ instructor.linkedin_url }}"><i class="bi bi-linkedin"></i></a>
+                    {% endif %}
+                    {% if instructor.twitter_url %}
+                    <a href="{{ instructor.twitter_url }}"><i class="bi bi-twitter"></i></a>
+                    {% endif %}
+                    {% if instructor.github_url %}
+                    <a href="{{ instructor.github_url }}"><i class="bi bi-github"></i></a>
+                    {% endif %}
+                    {% if instructor.instagram_url %}
+                    <a href="{{ instructor.instagram_url }}"><i class="bi bi-instagram"></i></a>
+                    {% endif %}
+                    {% if instructor.facebook_url %}
+                    <a href="{{ instructor.facebook_url }}"><i class="bi bi-facebook"></i></a>
+                    {% endif %}
+                    {% if instructor.dribbble_url %}
+                    <a href="{{ instructor.dribbble_url }}"><i class="bi bi-dribbble"></i></a>
+                    {% endif %}
+                    {% if instructor.behance_url %}
+                    <a href="{{ instructor.behance_url }}"><i class="bi bi-behance"></i></a>
+                    {% endif %}
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
-          <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="250">
-            <div class="instructor-card">
-              <div class="instructor-image">
-                <img src="assets/img/education/teacher-7.webp" class="img-fluid" alt="">
-                <div class="overlay-content">
-                  <div class="rating-stars">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <span>4.9</span>
-                  </div>
-                  <div class="course-count">
-                    <i class="bi bi-play-circle"></i>
-                    <span>24 Courses</span>
-                  </div>
-                </div>
-              </div>
-              <div class="instructor-info">
-                <h5>Michael Chen</h5>
-                <p class="specialty">Data Science</p>
-                <p class="description">Suspendisse potenti nullam ac tortor vitae purus faucibus ornare suspendisse sed nisi.</p>
-                <div class="stats-grid">
-                  <div class="stat">
-                    <span class="number">3.5k</span>
-                    <span class="label">Students</span>
-                  </div>
-                  <div class="stat">
-                    <span class="number">4.9</span>
-                    <span class="label">Rating</span>
-                  </div>
-                </div>
-                <div class="action-buttons">
-                  <a href="#" class="btn-view">View Profile</a>
-                  <div class="social-links">
-                    <a href="#"><i class="bi bi-github"></i></a>
-                    <a href="#"><i class="bi bi-linkedin"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-            <div class="instructor-card">
-              <div class="instructor-image">
-                <img src="assets/img/education/teacher-4.webp" class="img-fluid" alt="">
-                <div class="overlay-content">
-                  <div class="rating-stars">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star"></i>
-                    <span>4.6</span>
-                  </div>
-                  <div class="course-count">
-                    <i class="bi bi-play-circle"></i>
-                    <span>15 Courses</span>
-                  </div>
-                </div>
-              </div>
-              <div class="instructor-info">
-                <h5>Amanda Rodriguez</h5>
-                <p class="specialty">UX Design</p>
-                <p class="description">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis.</p>
-                <div class="stats-grid">
-                  <div class="stat">
-                    <span class="number">1.8k</span>
-                    <span class="label">Students</span>
-                  </div>
-                  <div class="stat">
-                    <span class="number">4.6</span>
-                    <span class="label">Rating</span>
-                  </div>
-                </div>
-                <div class="action-buttons">
-                  <a href="#" class="btn-view">View Profile</a>
-                  <div class="social-links">
-                    <a href="#"><i class="bi bi-dribbble"></i></a>
-                    <a href="#"><i class="bi bi-behance"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="350">
-            <div class="instructor-card">
-              <div class="instructor-image">
-                <img src="assets/img/education/teacher-9.webp" class="img-fluid" alt="">
-                <div class="overlay-content">
-                  <div class="rating-stars">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-half"></i>
-                    <span>4.7</span>
-                  </div>
-                  <div class="course-count">
-                    <i class="bi bi-play-circle"></i>
-                    <span>21 Courses</span>
-                  </div>
-                </div>
-              </div>
-              <div class="instructor-info">
-                <h5>David Thompson</h5>
-                <p class="specialty">Digital Marketing</p>
-                <p class="description">Vivamus magna justo lacinia eget consectetur sed convallis at tellus curabitur non nulla.</p>
-                <div class="stats-grid">
-                  <div class="stat">
-                    <span class="number">2.9k</span>
-                    <span class="label">Students</span>
-                  </div>
-                  <div class="stat">
-                    <span class="number">4.7</span>
-                    <span class="label">Rating</span>
-                  </div>
-                </div>
-                <div class="action-buttons">
-                  <a href="#" class="btn-view">View Profile</a>
-                  <div class="social-links">
-                    <a href="#"><i class="bi bi-instagram"></i></a>
-                    <a href="#"><i class="bi bi-facebook"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          {% endfor %}
         </div>
 
       </div>
@@ -404,44 +275,44 @@
 
           <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
             <div class="cta-content">
-              <h2>Transform Your Future with Expert-Led Online Courses</h2>
-              <p>Join thousands of successful learners who have advanced their careers through our comprehensive online education platform.</p>
+              <h2>{{ cta_data.title }}</h2>
+              <p>{{ cta_data.subtitle }}</p>
 
               <div class="features-list">
                 <div class="feature-item" data-aos="fade-up" data-aos-delay="300">
                   <i class="bi bi-check-circle-fill"></i>
-                  <span>20+ Expert instructors with industry experience</span>
+                  <span>{{ cta_data.feature_1 }}</span>
                 </div>
                 <div class="feature-item" data-aos="fade-up" data-aos-delay="350">
                   <i class="bi bi-check-circle-fill"></i>
-                  <span>Certificate of completion for every course</span>
+                  <span>{{ cta_data.feature_2 }}</span>
                 </div>
                 <div class="feature-item" data-aos="fade-up" data-aos-delay="400">
                   <i class="bi bi-check-circle-fill"></i>
-                  <span>24/7 access to course materials and resources</span>
+                  <span>{{ cta_data.feature_3 }}</span>
                 </div>
                 <div class="feature-item" data-aos="fade-up" data-aos-delay="450">
                   <i class="bi bi-check-circle-fill"></i>
-                  <span>Interactive assignments and real-world projects</span>
+                  <span>{{ cta_data.feature_4 }}</span>
                 </div>
               </div>
 
               <div class="cta-actions" data-aos="fade-up" data-aos-delay="500">
-                <a href="courses.html" class="btn btn-primary">Browse Courses</a>
-                <a href="enroll.html" class="btn btn-outline">Enroll Now</a>
+                <a href="{{ cta_data.cta_button_url }}" class="btn btn-primary">{{ cta_data.cta_button_text }}</a>
+                <a href="{{ cta_data.secondary_button_url }}" class="btn btn-outline">{{ cta_data.secondary_button_text }}</a>
               </div>
 
               <div class="stats-row" data-aos="fade-up" data-aos-delay="400">
                 <div class="stat-item">
-                  <h3><span data-purecounter-start="0" data-purecounter-end="15000" data-purecounter-duration="2" class="purecounter"></span>+</h3>
+                  <h3><span data-purecounter-start="0" data-purecounter-end="{{ cta_data.cta_students_count }}" data-purecounter-duration="2" class="purecounter"></span>+</h3>
                   <p>Students Enrolled</p>
                 </div>
                 <div class="stat-item">
-                  <h3><span data-purecounter-start="0" data-purecounter-end="150" data-purecounter-duration="2" class="purecounter"></span>+</h3>
+                  <h3><span data-purecounter-start="0" data-purecounter-end="{{ cta_data.cta_courses_count }}" data-purecounter-duration="2" class="purecounter"></span>+</h3>
                   <p>Courses Available</p>
                 </div>
                 <div class="stat-item">
-                  <h3><span data-purecounter-start="0" data-purecounter-end="98" data-purecounter-duration="2" class="purecounter"></span>%</h3>
+                  <h3><span data-purecounter-start="0" data-purecounter-end="{{ cta_data.cta_success_rate }}" data-purecounter-duration="2" class="purecounter"></span>%</h3>
                   <p>Success Rate</p>
                 </div>
               </div>
@@ -450,12 +321,16 @@
 
           <div class="col-lg-6" data-aos="fade-left" data-aos-delay="300">
             <div class="cta-image">
-              <img src="assets/img/education/courses-4.webp" alt="Online Learning Platform" class="img-fluid">
+              {% if cta_data.cta_image %}
+              <img src="{{ cta_data.cta_image.url }}" alt="Online Learning Platform" class="img-fluid">
+              {% else %}
+              <img src="{% static 'assets/img/education/courses-4.webp' %}" alt="Online Learning Platform" class="img-fluid">
+              {% endif %}
               <div class="floating-element student-card" data-aos="zoom-in" data-aos-delay="600">
                 <div class="card-content">
                   <i class="bi bi-person-check-fill"></i>
                   <div class="text">
-                    <span class="number">2,450</span>
+                    <span class="number">{{ floating_cards.0.student_count|default:2450 }}</span>
                     <span class="label">New Students This Month</span>
                   </div>
                 </div>

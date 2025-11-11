@@ -3,15 +3,48 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.http import JsonResponse
-from .models import Course, Category, Module, Lesson
+from .models import Course, Category, Module, Lesson, HomePageHero, HomePageFeature, HomePageFloatingCard, Instructor, HomePageCTA
 from .forms import CourseForm, ModuleForm, LessonForm
 
 
 def home(request):
     """Halaman beranda"""
     featured_courses = Course.objects.filter(is_published=True)[:6]  # Ambil 6 kursus terbaru
+    
+    # Get or create a default HomePageHero instance
+    hero_data, created = HomePageHero.objects.get_or_create(
+        id=1,  # Using a fixed ID to ensure we always get the same instance
+        defaults={
+            'title': 'Transform Your Future with Expert-Led Online Courses',
+            'subtitle': 'Discover thousands of high-quality courses designed by industry professionals. Learn at your own pace, gain in-demand skills, and advance your career from anywhere in the world.',
+        }
+    )
+    
+    # Get home page features
+    home_features = HomePageFeature.objects.all().order_by('order')
+    
+    # Get floating cards
+    floating_cards = list(HomePageFloatingCard.objects.all().order_by('order'))
+    
+    # Get featured instructors
+    featured_instructors = Instructor.objects.all().order_by('order')
+    
+    # Get CTA section data
+    cta_data, created = HomePageCTA.objects.get_or_create(
+        id=1,  # Using a fixed ID to ensure we always get the same instance
+        defaults={
+            'title': 'Transform Your Future with Expert-Led Online Courses',
+            'subtitle': 'Join thousands of successful learners who have advanced their careers through our comprehensive online education platform.',
+        }
+    )
+
     context = {
-        'featured_courses': featured_courses
+        'featured_courses': featured_courses,
+        'hero_data': hero_data,
+        'home_features': home_features,
+        'floating_cards': floating_cards,
+        'featured_instructors': featured_instructors,
+        'cta_data': cta_data,
     }
     return render(request, 'home.html', context)
 def about(request):

@@ -56,7 +56,7 @@
             <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
               <div class="hero-image">
                 <div class="main-image">
-                  <img src="assets/img/education/courses-13.webp" alt="Online Learning" class="img-fluid">
+                  <img src="{% static 'assets/img/education/courses-13.webp' %}" alt="Online Learning" class="img-fluid">
                 </div>
 
                 <div class="floating-cards">
@@ -120,24 +120,28 @@
       <div class="container" data-aos="fade-up" data-aos-delay="100">
 
         <div class="row gy-4">
-
+          {% for course in featured_courses %}
           <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
             <div class="course-card">
               <div class="course-image">
-                <img src="assets/img/education/students-9.webp" alt="Course" class="img-fluid">
-                <div class="price-badge">Rp. 50.000</div>
+                {% if course.thumbnail %}
+                <img src="{{ course.thumbnail.url }}" class="img-fluid" alt="{{ course.title }}">
+                {% else %}
+                <img src="{% static 'assets/img/education/students-9.webp' %}" alt="Course" class="img-fluid">
+                {% endif %}
+                <div class="price-badge">Rp. {{ course.price }}</div>
               </div>
               <div class="course-content">
                 <div class="course-meta">
-                  <span class="level">Pemula</span>
-                  <span class="duration">8 jam</span>
+                  <span class="level">{{ course.difficulty}}</span>
+                  <span class="duration">{{course.duration}} jam</span>
                 </div>
-                <h3><a href="#">Digital Marketing Fundamentals</a></h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam.</p>
+                <h3><a href="{% url 'courses:course_detail' course.slug %}">{{ course.title }}</a></h3>
+                <p>{{ course.description|truncatewords:20 }}</p>
                 <div class="instructor">
-                  <img src="assets/img/person/person-f-3.webp" alt="Instructor" class="instructor-img">
+                  <img src="{% static 'assets/img/person/person-f-3.webp' %}" alt="Instructor" class="instructor-img">
                   <div class="instructor-info">
-                    <h6>Sarah Johnson</h6>
+                    <h6>{{ course.instructor.get_full_name|default:course.instructor.username }}</h6>
                     <span>Marketing Expert</span>
                   </div>
                 </div>
@@ -151,6 +155,7 @@
               </div>
             </div>
           </div><!-- End Course Item -->
+          {% endfor %}
 
 
 
@@ -163,48 +168,6 @@
       </div>
 
     </section><!-- /Featured Courses Section -->
-
-<div class="py-5">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="fw-bold">Kursus Unggulan</h2>
-            <p class="text-muted">Kursus-kursus yang paling banyak diminati oleh pelajar</p>
-        </div>
-        
-        <div class="row">
-            {% for course in featured_courses %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    {% if course.thumbnail %}
-                        <img src="{{ course.thumbnail.url }}" class="card-img-top" alt="{{ course.title }}" style="height: 200px; object-fit: cover;">
-                    {% else %}
-                        <img src="{% static 'images/default-course.jpg' %}" class="card-img-top" alt="{{ course.title }}" style="height: 200px; object-fit: cover;">
-                    {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ course.title }}</h5>
-                        <p class="card-text">{{ course.description|truncatewords:20 }}</p>
-                        <a href="{% url 'courses:course_detail' course.slug %}" class="btn btn-primary">Lihat Detail</a>
-                    </div>
-                    <div class="card-footer bg-transparent">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <small class="text-muted">Oleh: {{ course.instructor.get_full_name|default:course.instructor.username }}</small>
-                            <small class="text-muted">Rp {{ course.price }}</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% empty %}
-            <div class="col-12">
-                <p class="text-center">Belum ada kursus yang tersedia.</p>
-            </div>
-            {% endfor %}
-        </div>
-        
-        <div class="text-center mt-4">
-            <a href="{% url 'courses:course_list' %}" class="btn btn-outline-primary">Lihat Semua Kursus</a>
-        </div>
-    </div>
-</div>
 
 <div class="py-5 bg-light">
     <div class="container">
